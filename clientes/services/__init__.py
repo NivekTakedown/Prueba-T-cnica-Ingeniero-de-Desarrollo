@@ -8,6 +8,8 @@ from .base_service import (
 )
 
 from .cliente_service import ClienteService
+from .exportacion_service import ExportacionService
+from .reporte_service import ReporteService
 
 __all__ = [
     # Base service
@@ -18,6 +20,8 @@ __all__ = [
     'require_params',
     'log_service_operation',
     
-    # Cliente service
-    'ClienteService'
+    # Business services
+    'ClienteService',
+    'ExportacionService',
+    'ReporteService'
 ]
