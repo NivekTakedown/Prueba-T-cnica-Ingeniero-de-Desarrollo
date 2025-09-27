@@ -3,9 +3,13 @@ from .reference_models import (
     EstadoCompra,
     CategoriaProducto,
 )
+from .cliente_models import (
+    Cliente,
+)
 
 __all__ = [
     'TipoDocumento',
     'EstadoCompra', 
     'CategoriaProducto',
+    'Cliente',
 ]
