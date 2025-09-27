@@ -1,0 +1,15 @@
+INFO 2025-09-27 17:01:46,538 autoreload 24164 140050813804160 Watching for file changes with StatReloader
+INFO 2025-09-27 17:02:29,239 autoreload 24164 140050813804160 /home/xenox/github.com/Prueba-Falabella/rios_desierto_sac/settings.py changed, reloading.
+INFO 2025-09-27 17:02:29,651 autoreload 24477 139683218890368 Watching for file changes with StatReloader
+INFO 2025-09-27 17:02:30,858 autoreload 24477 139683218890368 /home/xenox/github.com/Prueba-Falabella/rios_desierto_sac/settings.py changed, reloading.
+INFO 2025-09-27 17:02:31,318 autoreload 24489 140718746349184 Watching for file changes with StatReloader
+INFO 2025-09-27 17:04:08,810 autoreload 25228 139856707903104 Watching for file changes with StatReloader
+INFO 2025-09-27 17:04:14,605 basehttp 25228 139856348968640 "GET / HTTP/1.1" 200 12120
+WARNING 2025-09-27 17:04:14,942 log 25228 139856348968640 Not Found: /favicon.ico
+WARNING 2025-09-27 17:04:14,943 basehttp 25228 139856348968640 "GET /favicon.ico HTTP/1.1" 404 2219
+INFO 2025-09-27 17:04:28,296 autoreload 25228 139856707903104 /home/xenox/github.com/Prueba-Falabella/rios_desierto_sac/urls.py changed, reloading.
+INFO 2025-09-27 17:04:28,723 autoreload 25966 140244068195968 Watching for file changes with StatReloader
+INFO 2025-09-27 17:04:38,092 autoreload 25966 140244068195968 /home/xenox/github.com/Prueba-Falabella/rios_desierto_sac/urls.py changed, reloading.
+INFO 2025-09-27 17:04:38,520 autoreload 26058 140283585035904 Watching for file changes with StatReloader
+INFO 2025-09-27 17:04:40,771 autoreload 26058 140283585035904 /home/xenox/github.com/Prueba-Falabella/rios_desierto_sac/urls.py changed, reloading.
+INFO 2025-09-27 17:04:41,244 autoreload 26092 140018022715008 Watching for file changes with StatReloader

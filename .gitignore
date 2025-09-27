@@ -1,0 +1,13 @@
+*.md
+*.mermaid
+
+# DJango
+*.log
+*.pot
+*.pyc
+__pycache__/
+media/  
+staticfiles/
+.env
+.vscode/
+*.sqlite3
