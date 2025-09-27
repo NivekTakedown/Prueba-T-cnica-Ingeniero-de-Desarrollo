@@ -5,6 +5,7 @@ from .base_repository import (
     RepositoryValidationError,
 )
 from .cliente_repository import ClienteRepository
+from .compra_repository import CompraRepository
 
 __all__ = [
     'BaseRepository',
@@ -12,4 +13,5 @@ __all__ = [
     'ObjectNotFoundError',
     'RepositoryValidationError',
     'ClienteRepository',
+    'CompraRepository',
 ]
