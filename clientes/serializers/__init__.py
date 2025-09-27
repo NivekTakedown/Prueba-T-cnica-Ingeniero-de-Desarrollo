@@ -11,8 +11,17 @@ from .reference_serializers import (
     EstadoCompraResponseSerializer,
     CategoriaProductoResponseSerializer,
 )
+from .cliente_serializers import (
+    ClienteSerializer,
+    ClienteBusquedaSerializer,
+    ClienteResponseSerializer,
+    ClienteListSerializer,
+    ClienteCreateSerializer,
+    ClienteUpdateSerializer,
+)
 
 __all__ = [
+    # Reference serializers
     'TipoDocumentoSerializer',
     'TipoDocumentoListSerializer',
     'EstadoCompraSerializer',
@@ -24,4 +33,11 @@ __all__ = [
     'TipoDocumentoResponseSerializer',
     'EstadoCompraResponseSerializer',
     'CategoriaProductoResponseSerializer',
+    # Cliente serializers
+    'ClienteSerializer',
+    'ClienteBusquedaSerializer',
+    'ClienteResponseSerializer',
+    'ClienteListSerializer',
+    'ClienteCreateSerializer',
+    'ClienteUpdateSerializer',
 ]
