@@ -290,7 +290,7 @@ class Cliente(models.Model):
         from django.db.models import Sum, Count, Max
         
         # Obtener estadísticas de compras completadas
-        stats = self.compras.filter(estado='COMPLETADA').aggregate(
+        stats = self.compras.filter(estado__codigo='COMPLETADA').aggregate(
             total=Sum('monto_total'),
             cantidad=Count('id'),
             ultima_fecha=Max('fecha_compra')
