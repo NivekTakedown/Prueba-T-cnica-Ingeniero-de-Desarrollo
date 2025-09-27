@@ -19,6 +19,15 @@ from .cliente_serializers import (
     ClienteCreateSerializer,
     ClienteUpdateSerializer,
 )
+from .compra_serializers import (
+    ProductoSerializer,
+    ProductoListSerializer,
+    DetalleCompraSerializer,
+    CompraSerializer,
+    CompraResumenSerializer,
+    CompraCreateSerializer,
+    CompraEstadisticasSerializer,
+)
 
 __all__ = [
     # Reference serializers
@@ -40,4 +49,12 @@ __all__ = [
     'ClienteListSerializer',
     'ClienteCreateSerializer',
     'ClienteUpdateSerializer',
+    # Compra serializers
+    'ProductoSerializer',
+    'ProductoListSerializer',
+    'DetalleCompraSerializer',
+    'CompraSerializer',
+    'CompraResumenSerializer',
+    'CompraCreateSerializer',
+    'CompraEstadisticasSerializer',
 ]
