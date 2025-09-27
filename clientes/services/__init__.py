@@ -7,11 +7,17 @@ from .base_service import (
     log_service_operation
 )
 
+from .cliente_service import ClienteService
+
 __all__ = [
+    # Base service
     'BaseService',
     'ServiceException', 
     'ClienteNoEncontradoException',
     'DocumentoInvalidoException',
     'require_params',
-    'log_service_operation'
+    'log_service_operation',
+    
+    # Cliente service
+    'ClienteService'
 ]
