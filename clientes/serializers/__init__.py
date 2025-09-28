@@ -1,3 +1,25 @@
+# Importar serializers de cliente
+from .cliente_serializers import (
+    ClienteSerializer,
+    ClienteBusquedaSerializer,
+    ClienteResponseSerializer,
+    ClienteListSerializer,
+    ClienteCreateSerializer,
+    ClienteUpdateSerializer
+)
+
+# Importar serializers de compra
+from .compra_serializers import (
+    ProductoSerializer,
+    ProductoListSerializer,
+    CompraSerializer,
+    CompraResumenSerializer,
+    CompraCreateSerializer,
+    DetalleCompraSerializer,
+    CompraEstadisticasSerializer
+)
+
+# Importar serializers de referencia
 from .reference_serializers import (
     TipoDocumentoSerializer,
     TipoDocumentoListSerializer,
@@ -9,28 +31,40 @@ from .reference_serializers import (
     ApiResponseSerializer,
     TipoDocumentoResponseSerializer,
     EstadoCompraResponseSerializer,
-    CategoriaProductoResponseSerializer,
+    CategoriaProductoResponseSerializer
 )
-from .cliente_serializers import (
-    ClienteSerializer,
-    ClienteBusquedaSerializer,
-    ClienteResponseSerializer,
-    ClienteListSerializer,
-    ClienteCreateSerializer,
-    ClienteUpdateSerializer,
+
+# Importar serializers de API
+from .api_serializers import (
+    BusquedaClienteRequestSerializer,
+    BusquedaClienteResponseSerializer,
+    ExportacionRequestSerializer,
+    ReporteFidelizacionRequestSerializer,
+    ReporteFidelizacionResponseSerializer,
+    ErrorResponseSerializer,  # ✅ Este existe
+    SuccessResponseSerializer,  # ✅ Este existe
+    TiposDocumentoResponseSerializer,
+    ValidacionDocumentoSerializer
 )
-from .compra_serializers import (
-    ProductoSerializer,
-    ProductoListSerializer,
-    DetalleCompraSerializer,
-    CompraSerializer,
-    CompraResumenSerializer,
-    CompraCreateSerializer,
-    CompraEstadisticasSerializer,
-)
-from .api_serializers import ApiResponseSerializer
 
 __all__ = [
+    # Cliente serializers
+    'ClienteSerializer',
+    'ClienteBusquedaSerializer', 
+    'ClienteResponseSerializer',
+    'ClienteListSerializer',
+    'ClienteCreateSerializer',
+    'ClienteUpdateSerializer',
+    
+    # Compra serializers
+    'ProductoSerializer',
+    'ProductoListSerializer',
+    'CompraSerializer',
+    'CompraResumenSerializer',
+    'CompraCreateSerializer',
+    'DetalleCompraSerializer',
+    'CompraEstadisticasSerializer',
+    
     # Reference serializers
     'TipoDocumentoSerializer',
     'TipoDocumentoListSerializer',
@@ -43,21 +77,15 @@ __all__ = [
     'TipoDocumentoResponseSerializer',
     'EstadoCompraResponseSerializer',
     'CategoriaProductoResponseSerializer',
-    # Cliente serializers
-    'ClienteSerializer',
-    'ClienteBusquedaSerializer',
-    'ClienteResponseSerializer',
-    'ClienteListSerializer',
-    'ClienteCreateSerializer',
-    'ClienteUpdateSerializer',
-    # Compra serializers
-    'ProductoSerializer',
-    'ProductoListSerializer',
-    'DetalleCompraSerializer',
-    'CompraSerializer',
-    'CompraResumenSerializer',
-    'CompraCreateSerializer',
-    'CompraEstadisticasSerializer',
+    
     # API serializers
-    'ApiResponseSerializer',
+    'BusquedaClienteRequestSerializer',
+    'BusquedaClienteResponseSerializer',
+    'ExportacionRequestSerializer',
+    'ReporteFidelizacionRequestSerializer',
+    'ReporteFidelizacionResponseSerializer',
+    'ErrorResponseSerializer',
+    'SuccessResponseSerializer',
+    'TiposDocumentoResponseSerializer',
+    'ValidacionDocumentoSerializer'
 ]

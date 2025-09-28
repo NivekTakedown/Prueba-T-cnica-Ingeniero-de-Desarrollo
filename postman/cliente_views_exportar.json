@@ -1,0 +1,107 @@
+{
+  "info": {
+    "name": "SAC Rios del Desierto - Exportación Tests",
+    "description": "Pruebas para los endpoints de exportación",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Obtener formatos disponibles",
+      "request": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8000/api/v1/exportar/",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Exportar Cliente CSV",
+      "request": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8000/api/v1/exportar/",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"tipo_documento\": \"CC\",\n    \"numero_documento\": \"12345678\",\n    \"formato\": \"csv\",\n    \"incluir_compras\": true,\n    \"incluir_productos\": false\n}"
+        }
+      }
+    },
+    {
+      "name": "Exportar Cliente Excel",
+      "request": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8000/api/v1/exportar/",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"tipo_documento\": \"CC\",\n    \"numero_documento\": \"12345678\",\n    \"formato\": \"excel\",\n    \"incluir_compras\": true,\n    \"incluir_productos\": true,\n    \"nombre_archivo\": \"reporte_cliente\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Exportar Cliente TXT",
+      "request": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8000/api/v1/exportar/",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"tipo_documento\": \"CC\",\n    \"numero_documento\": \"12345678\",\n    \"formato\": \"txt\",\n    \"incluir_compras\": true,\n    \"incluir_productos\": false\n}"
+        }
+      }
+    },
+    {
+      "name": "Exportar Cliente - Documento Inválido",
+      "request": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8000/api/v1/exportar/",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"tipo_documento\": \"CC\",\n    \"numero_documento\": \"123\",\n    \"formato\": \"csv\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Exportar Cliente - Formato Inválido",
+      "request": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8000/api/v1/exportar/",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"tipo_documento\": \"CC\",\n    \"numero_documento\": \"12345678\",\n    \"formato\": \"pdf\"\n}"
+        }
+      }
+    }
+  ]
+}

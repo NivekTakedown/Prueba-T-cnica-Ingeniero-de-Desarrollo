@@ -1,0 +1,147 @@
+{
+  "info": {
+    "name": "SAC Rios del Desierto - Reportes Tests",
+    "description": "Pruebas para endpoints de reportes y análisis",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. GET - Reporte Fidelización (JSON)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/api/v1/reportes/fidelizacion/?exportar_excel=false&monto_minimo=5000000",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "reportes", "fidelizacion", ""],
+          "query": [
+            {
+              "key": "exportar_excel",
+              "value": "false"
+            },
+            {
+              "key": "monto_minimo",
+              "value": "5000000"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      }
+    },
+    {
+      "name": "2. GET - Reporte Fidelización (Excel)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/api/v1/reportes/fidelizacion/?exportar_excel=true&monto_minimo=5000000",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "reportes", "fidelizacion", ""],
+          "query": [
+            {
+              "key": "exportar_excel",
+              "value": "true"
+            },
+            {
+              "key": "monto_minimo",
+              "value": "5000000"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "3. GET - Reporte Fidelización con Fechas",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/api/v1/reportes/fidelizacion/?fecha_inicio=2025-08-01&fecha_fin=2025-08-31",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "reportes", "fidelizacion", ""],
+          "query": [
+            {
+              "key": "fecha_inicio",
+              "value": "2025-08-01"
+            },
+            {
+              "key": "fecha_fin",
+              "value": "2025-08-31"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "4. POST - Reporte Fidelización",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{base_url}}/api/v1/reportes/fidelizacion/",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "reportes", "fidelizacion", ""]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"fecha_inicio\": \"2025-08-01\",\n    \"fecha_fin\": \"2025-09-28\",\n    \"monto_minimo\": 5000000,\n    \"exportar_excel\": true,\n    \"nombre_archivo\": \"reporte_vip_q3_2025\"\n}"
+        }
+      }
+    },
+    {
+      "name": "5. POST - Reporte Fidelización (JSON)",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{base_url}}/api/v1/reportes/fidelizacion/",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "reportes", "fidelizacion", ""]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"monto_minimo\": 1000000,\n    \"exportar_excel\": false\n}"
+        }
+      }
+    },
+    {
+      "name": "6. POST - Reporte Fidelización (Parámetros Inválidos)",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{base_url}}/api/v1/reportes/fidelizacion/",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v1", "reportes", "fidelizacion", ""]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"fecha_inicio\": \"2025-13-01\",\n    \"monto_minimo\": \"no-es-numero\"\n}"
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    }
+  ]
+}
