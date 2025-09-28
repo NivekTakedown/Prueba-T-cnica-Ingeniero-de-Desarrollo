@@ -1,0 +1,44 @@
+# Ignore Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore Django migrations
+*/migrations/
+
+# Ignore environment files
+.env
+*.env
+
+# Ignore virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Ignore static and media files
+staticfiles/
+media/
+
+# Ignore Docker files
+Dockerfile
+docker-compose.yml
+
+# Ignore node modules (if using frontend)
+node_modules/
+
+# Ignore test coverage reports
+htmlcov/
+.coverage
+*.cover
+
+# Ignore logs
+*.log
+
+# Ignore IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+*.tmp
