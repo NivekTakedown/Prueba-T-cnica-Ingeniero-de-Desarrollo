@@ -1,0 +1,558 @@
+{
+    "info": {
+        "name": "SAC Rios del Desierto - Cliente Views Tests",
+        "description": "Colección de pruebas para los endpoints de cliente (Task 6.2)",
+        "version": "1.0.0"
+    },
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://127.0.0.1:8000",
+            "type": "string"
+        },
+        {
+            "key": "api_version",
+            "value": "v1",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "1. Tipos de Documento",
+            "item": [
+                {
+                    "name": "GET - Listar Tipos de Documento",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "// Verificar status code",
+                                    "pm.test('Status code es 200', function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "// Verificar estructura de respuesta",
+                                    "pm.test('Respuesta tiene estructura correcta', function () {",
+                                    "    const responseJson = pm.response.json();",
+                                    "    pm.expect(responseJson).to.have.property('success');",
+                                    "    pm.expect(responseJson).to.have.property('data');",
+                                    "    pm.expect(responseJson).to.have.property('message');",
+                                    "});",
+                                    "",
+                                    "// Verificar que success es true",
+                                    "pm.test('Success es true', function () {",
+                                    "    const responseJson = pm.response.json();",
+                                    "    pm.expect(responseJson.success).to.be.true;",
+                                    "});",
+                                    "",
+                                    "// Verificar que hay tipos de documento",
+                                    "pm.test('Hay tipos de documento disponibles', function () {",
+                                    "    const responseJson = pm.response.json();",
+                                    "    pm.expect(responseJson.data).to.be.an('array');",
+                                    "    pm.expect(responseJson.data.length).to.be.greaterThan(0);",
+                                    "});",
+                                    "",
+                                    "// Verificar estructura de tipo de documento",
+                                    "pm.test('Tipo de documento tiene estructura correcta', function () {",
+                                    "    const responseJson = pm.response.json();",
+                                    "    if (responseJson.data.length > 0) {",
+                                    "        const tipoDoc = responseJson.data[0];",
+                                    "        pm.expect(tipoDoc).to.have.property('codigo');",
+                                    "        pm.expect(tipoDoc).to.have.property('nombre');",
+                                    "        pm.expect(tipoDoc).to.have.property('descripcion');",
+                                    "        pm.expect(tipoDoc).to.have.property('activo');",
+                                    "    }",
+                                    "});",
+                                    "",
+                                    "// Guardar primer tipo para pruebas siguientes",
+                                    "pm.test('Guardar tipo de documento para siguientes pruebas', function () {",
+                                    "    const responseJson = pm.response.json();",
+                                    "    if (responseJson.data.length > 0) {",
+                                    "        pm.collectionVariables.set('tipo_documento_codigo', responseJson.data[0].codigo);",
+                                    "    }",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/{{api_version}}/tipos-documento/",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "{{api_version}}", "tipos-documento", ""]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "2. Búsqueda de Cliente",
+            "item": [
+                {
+                    "name": "POST - Buscar Cliente Válido",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "// Verificar status code (200 o 404 son válidos)",
+                                    "pm.test('Status code es 200 o 404', function () {",
+                                    "    pm.expect([200, 404]).to.include(pm.response.code);",
+                                    "});",
+                                    "",
+                                    "// Verificar estructura de respuesta",
+                                    "pm.test('Respuesta tiene estructura correcta', function () {",
+                                    "    const responseJson = pm.response.json();",
+                                    "    pm.expect(responseJson).to.have.property('success');",
+                                    "    pm.expect(responseJson).to.have.property('message');",
+                                    "});",
+                                    "",
+                                    "// Si es 200, verificar datos del cliente",
+                                    "pm.test('Si cliente encontrado, verificar estructura', function () {",
+                                    "    if (pm.response.code === 200) {",
+                                    "        const responseJson = pm.response.json();",
+                                    "        pm.expect(responseJson.success).to.be.true;",
+                                    "        pm.expect(responseJson).to.have.property('data');",
+                                    "        pm.expect(responseJson.data).to.have.property('cliente');",
+                                    "        pm.expect(responseJson.data).to.have.property('estadisticas_compras');",
+                                    "        ",
+                                    "        // Verificar estructura del cliente",
+                                    "        const cliente = responseJson.data.cliente;",
+                                    "        pm.expect(cliente).to.have.property('id');",
+                                    "        pm.expect(cliente).to.have.property('tipo_documento');",
+                                    "        pm.expect(cliente).to.have.property('numero_documento');",
+                                    "        pm.expect(cliente).to.have.property('nombre');",
+                                    "        pm.expect(cliente).to.have.property('apellido');",
+                                    "        pm.expect(cliente).to.have.property('nombre_completo');",
+                                    "        ",
+                                    "        // Guardar ID del cliente para pruebas siguientes",
+                                    "        pm.collectionVariables.set('cliente_id', cliente.id);",
+                                    "    }",
+                                    "});",
+                                    "",
+                                    "// Si es 404, verificar mensaje de error",
+                                    "pm.test('Si cliente no encontrado, verificar error', function () {",
+                                    "    if (pm.response.code === 404) {",
+                                    "        const responseJson = pm.response.json();",
+                                    "        pm.expect(responseJson.success).to.be.false;",
+                                    "        pm.expect(responseJson).to.have.property('error');",
+                                    "    }",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"tipo_documento\": \"CC\",\n    \"numero_documento\": \"12345678\",\n    \"incluir_compras\": true,\n    \"limite_compras\": 5\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/{{api_version}}/buscar-cliente/",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "{{api_version}}", "buscar-cliente", ""]
+                        }
+                    }
+                },
+                {
+                    "name": "POST - Buscar Cliente con Documento Inválido",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "// Debe retornar error 400",
+                                    "pm.test('Status code es 400', function () {",
+                                    "    pm.response.to.have.status(400);",
+                                    "});",
+                                    "",
+                                    "// Verificar estructura de error",
+                                    "pm.test('Respuesta de error correcta', function () {",
+                                    "    const responseJson = pm.response.json();",
+                                    "    pm.expect(responseJson.success).to.be.false;",
+                                    "    pm.expect(responseJson).to.have.property('error');",
+                                    "    pm.expect(responseJson.error).to.have.property('code');",
+                                    "    pm.expect(responseJson.error).to.have.property('message');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"tipo_documento\": \"CC\",\n    \"numero_documento\": \"123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/{{api_version}}/buscar-cliente/",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "{{api_version}}", "buscar-cliente", ""]
+                        }
+                    }
+                },
+                {
+                    "name": "POST - Buscar Cliente sin Datos",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "// Debe retornar error 400",
+                                    "pm.test('Status code es 400', function () {",
+                                    "    pm.response.to.have.status(400);",
+                                    "});",
+                                    "",
+                                    "// Verificar que hay errores de validación",
+                                    "pm.test('Contiene errores de validación', function () {",
+                                    "    const responseJson = pm.response.json();",
+                                    "    pm.expect(responseJson.success).to.be.false;",
+                                    "    pm.expect(responseJson.error).to.have.property('details');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/{{api_version}}/buscar-cliente/",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "{{api_version}}", "buscar-cliente", ""]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "3. Información Completa Cliente",
+            "item": [
+                {
+                    "name": "GET - Info Completa por ID (con compras)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "// Verificar status code (200 o 404)",
+                                    "pm.test('Status code es 200 o 404', function () {",
+                                    "    pm.expect([200, 404]).to.include(pm.response.code);",
+                                    "});",
+                                    "",
+                                    "// Si el cliente existe, verificar estructura",
+                                    "pm.test('Si cliente existe, verificar estructura completa', function () {",
+                                    "    if (pm.response.code === 200) {",
+                                    "        const responseJson = pm.response.json();",
+                                    "        pm.expect(responseJson.success).to.be.true;",
+                                    "        pm.expect(responseJson.data).to.have.property('cliente');",
+                                    "        pm.expect(responseJson.data).to.have.property('estadisticas_compras');",
+                                    "        pm.expect(responseJson.data).to.have.property('compras_recientes');",
+                                    "        pm.expect(responseJson).to.have.property('meta');",
+                                    "    }",
+                                    "});",
+                                    "",
+                                    "// Verificar metadata",
+                                    "pm.test('Metadata correcta', function () {",
+                                    "    if (pm.response.code === 200) {",
+                                    "        const responseJson = pm.response.json();",
+                                    "        pm.expect(responseJson.meta).to.have.property('cliente_id');",
+                                    "        pm.expect(responseJson.meta).to.have.property('incluir_compras');",
+                                    "        pm.expect(responseJson.meta).to.have.property('limite_aplicado');",
+                                    "    }",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/{{api_version}}/cliente/4/?incluir_compras=true&limite_compras=5",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "{{api_version}}", "cliente", "4", ""],
+                            "query": [
+                                {
+                                    "key": "incluir_compras",
+                                    "value": "true"
+                                },
+                                {
+                                    "key": "limite_compras",
+                                    "value": "5"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "GET - Info Completa sin compras",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status code es 200 o 404', function () {",
+                                    "    pm.expect([200, 404]).to.include(pm.response.code);",
+                                    "});",
+                                    "",
+                                    "pm.test('Sin compras en respuesta', function () {",
+                                    "    if (pm.response.code === 200) {",
+                                    "        const responseJson = pm.response.json();",
+                                    "        pm.expect(responseJson.data.compras_recientes).to.be.empty;",
+                                    "        pm.expect(responseJson.meta.incluir_compras).to.be.false;",
+                                    "    }",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/{{api_version}}/cliente/4/?incluir_compras=false",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "{{api_version}}", "cliente", "4", ""],
+                            "query": [
+                                {
+                                    "key": "incluir_compras",
+                                    "value": "false"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "GET - Cliente No Existente",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "// Debe retornar 404",
+                                    "pm.test('Status code es 404', function () {",
+                                    "    pm.response.to.have.status(404);",
+                                    "});",
+                                    "",
+                                    "// Verificar estructura de error",
+                                    "pm.test('Error correctamente estructurado', function () {",
+                                    "    const responseJson = pm.response.json();",
+                                    "    pm.expect(responseJson.success).to.be.false;",
+                                    "    pm.expect(responseJson.error).to.have.property('code');",
+                                    "    pm.expect(responseJson.error.code).to.equal('CLIENTE_NO_ENCONTRADO');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/{{api_version}}/cliente/99999/",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "{{api_version}}", "cliente", "99999", ""]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "4. Pruebas de Validación",
+            "item": [
+                {
+                    "name": "POST - Tipo de documento inválido",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status code es 400', function () {",
+                                    "    pm.response.to.have.status(400);",
+                                    "});",
+                                    "",
+                                    "pm.test('Error de validación de tipo documento', function () {",
+                                    "    const responseJson = pm.response.json();",
+                                    "    pm.expect(responseJson.success).to.be.false;",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"tipo_documento\": \"INVALID\",\n    \"numero_documento\": \"12345678\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/{{api_version}}/buscar-cliente/",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "{{api_version}}", "buscar-cliente", ""]
+                        }
+                    }
+                },
+                {
+                    "name": "POST - Content-Type incorrecto",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "// Debe manejar el content-type incorrecto",
+                                    "pm.test('Status code es 400 o 415', function () {",
+                                    "    pm.expect([400, 415]).to.include(pm.response.code);",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "text/plain"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "tipo_documento=CC&numero_documento=12345678"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/{{api_version}}/buscar-cliente/",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "{{api_version}}", "buscar-cliente", ""]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "5. Pruebas de Performance",
+            "item": [
+                {
+                    "name": "GET - Tipos Documento (Performance)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "// Verificar tiempo de respuesta",
+                                    "pm.test('Tiempo de respuesta menor a 2000ms', function () {",
+                                    "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                                    "});",
+                                    "",
+                                    "// Verificar tamaño de respuesta",
+                                    "pm.test('Tamaño de respuesta razonable', function () {",
+                                    "    pm.expect(pm.response.responseSize).to.be.below(10000); // 10KB",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/{{api_version}}/tipos-documento/",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "{{api_version}}", "tipos-documento", ""]
+                        }
+                    }
+                },
+                {
+                    "name": "POST - Búsqueda Cliente (Performance)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "// Verificar tiempo de respuesta",
+                                    "pm.test('Tiempo de respuesta menor a 5000ms', function () {",
+                                    "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                                    "});",
+                                    "",
+                                    "// Log del tiempo de respuesta",
+                                    "pm.test('Log tiempo de respuesta', function () {",
+                                    "    console.log(`Tiempo de respuesta: ${pm.response.responseTime}ms`);",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"tipo_documento\": \"CC\",\n    \"numero_documento\": \"12345678\",\n    \"incluir_compras\": true,\n    \"limite_compras\": 20\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/{{api_version}}/buscar-cliente/",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "{{api_version}}", "buscar-cliente", ""]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
