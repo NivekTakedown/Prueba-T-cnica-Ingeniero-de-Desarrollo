@@ -48,13 +48,70 @@ class ReporteFidelizacionAPIView(BaseAPIView, ValidationMixin, FileResponseMixin
         - Resumen ejecutivo del período
         
         **Parámetros opcionales:**
-        - Fecha de inicio del período
-        - Fecha de fin del período
-        - Monto mínimo para considerar cliente VIP
-        - Si exportar directamente a Excel
+        - `fecha_inicio`: Fecha de inicio del período (formato YYYY-MM-DD)
+        - `fecha_fin`: Fecha de fin del período (formato YYYY-MM-DD)
+        - `monto_minimo`: Monto mínimo para considerar cliente VIP (default: 5000000)
+        - `exportar_excel`: Si generar archivo Excel directamente (default: true)
         
-        Por defecto, analiza el último mes completo y considera VIP a clientes
-        con compras superiores a $5,000,000.
+        **URL de ejemplo:**
+        ```
+        GET /api/v1/reportes/fidelizacion/?fecha_inicio=2025-08-01&fecha_fin=2025-08-31&monto_minimo=5000000&exportar_excel=false
+        ```
+        
+        **Ejemplo de respuesta JSON:**
+        ```json
+        {
+            "success": true,
+            "message": "Reporte de fidelización generado exitosamente",
+            "data": {
+                "clientes_vip": [
+                    {
+                        "id": 4,
+                        "tipo_documento": "CC",
+                        "numero_documento": "12345678",
+                        "nombre_completo": "Juan Pérez",
+                        "correo": "juan.perez@ejemplo.com",
+                        "monto_total_periodo": 8500000.00,
+                        "numero_transacciones": 5,
+                        "fecha_ultima_compra": "2025-08-28T10:15:30Z"
+                    },
+                    {
+                        "id": 7,
+                        "tipo_documento": "NIT",
+                        "numero_documento": "9001234567",
+                        "nombre_completo": "Empresa ABC",
+                        "correo": "contacto@empresaabc.com",
+                        "monto_total_periodo": 12750000.00,
+                        "numero_transacciones": 8,
+                        "fecha_ultima_compra": "2025-08-30T16:45:20Z"
+                    }
+                ],
+                "estadisticas_generales": {
+                    "total_clientes_vip": 2,
+                    "monto_total_periodo": 21250000.00,
+                    "monto_promedio_cliente": 10625000.00,
+                    "transacciones_totales": 13,
+                    "ticket_promedio": 1634615.38,
+                    "periodo_dias": 31,
+                    "cliente_mayor_gasto": "Empresa ABC (NIT: 9001234567)"
+                }
+            },
+            "meta": {
+                "fecha_generacion": "2025-09-28T14:40:22Z",
+                "total_clientes_vip": 2,
+                "parametros": {
+                    "fecha_inicio": "2025-08-01",
+                    "fecha_fin": "2025-08-31",
+                    "monto_minimo": 5000000.00
+                }
+            },
+            "timestamp": "2025-09-28T14:40:22Z"
+        }
+        ```
+        
+        **Notas:**
+        - Si `exportar_excel=true`, la respuesta será un archivo Excel para descarga
+        - Por defecto, analiza el último mes completo
         """,
         parameters=[
             OpenApiParameter(
@@ -131,6 +188,17 @@ class ReporteFidelizacionAPIView(BaseAPIView, ValidationMixin, FileResponseMixin
         description="""
         Versión POST del generador de reportes de fidelización.
         Permite especificar parámetros en el cuerpo de la petición.
+        
+        **Ejemplo de solicitud:**
+        ```json
+        {
+            "fecha_inicio": "2025-08-01",
+            "fecha_fin": "2025-09-30",
+            "monto_minimo": 5000000,
+            "exportar_excel": true,
+            "nombre_archivo": "reporte_vip_q3_2025"
+        }
+        ```
         
         Útil para interfaces complejas o para integración con otros sistemas
         que necesitan enviar parámetros detallados.

@@ -8,6 +8,9 @@ class TipoDocumentoSerializer(serializers.ModelSerializer):
     Usado para listar tipos de documento disponibles en la API.
     """
     
+    # Añadir campo personalizado para descripción
+    descripcion = serializers.SerializerMethodField()
+    
     class Meta:
         model = TipoDocumento
         fields = [
@@ -22,6 +25,12 @@ class TipoDocumentoSerializer(serializers.ModelSerializer):
             'fecha_creacion'
         ]
         read_only_fields = ['id', 'fecha_creacion']
+    
+    def get_descripcion(self, obj):
+        """
+        Genera una descripción basada en el nombre del tipo de documento.
+        """
+        return f"Documento de identidad tipo {obj.nombre}"
     
     def validate_codigo(self, value):
         """
@@ -84,8 +93,7 @@ class TipoDocumentoListSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = TipoDocumento
-        fields = ['id', 'codigo', 'nombre','descripcion', 'activo']
-
+        fields = ['id', 'codigo', 'nombre', 'activo']  
 
 class EstadoCompraSerializer(serializers.ModelSerializer):
     """

@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from a .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ddo#_#!uhzirg^t8f7zt@w#+islm-hm-n$649w)e=6g$veq6ub'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-ddo#_#!uhzirg^t8f7zt@w#+islm-hm-n$649w)e=6g$veq6ub')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost').split(',')
 
 
 # Application definition
@@ -124,7 +128,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Media files (Uploads)
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Configuración adicional para archivos estáticos
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 
 
 # Default primary key field type
@@ -147,11 +160,50 @@ REST_FRAMEWORK = {
 
 # Swagger/OpenAPI configuration
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Sistema SAC Rios del Desierto API',
-    'DESCRIPTION': 'API para Sistema de Atención al Cliente de Rios del Desierto',
+    'TITLE': 'SAC Rios del Desierto API',
+    'DESCRIPTION': """
+    API para el Sistema de Atención al Cliente de Rios del Desierto.
+    
+    Este API permite gestionar clientes, consultar información, generar reportes 
+    y exportar datos en diferentes formatos.
+    """,
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
-    'SCHEMA_PATH_PREFIX': '/api/v1/',
+    'CONTACT': {
+        'name': 'Equipo de Desarrollo SAC',
+        'email': 'desarrollo@riosdeldesierto.com',
+    },
+    'LICENSE': {
+        'name': 'Privada - Todos los derechos reservados',
+    },
+    'EXTERNAL_DOCS': {
+        'description': 'Manual técnico completo',
+        'url': '/docs/manual_tecnico.pdf',
+    },
+    # Mejoras de interfaz
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,
+        'persistAuthorization': True,
+        'displayOperationId': True,
+        'defaultModelsExpandDepth': 3,
+        'defaultModelExpandDepth': 3,
+        'defaultModelRendering': 'model',
+        'displayRequestDuration': True,
+        'docExpansion': 'list',
+        'filter': True,
+        'showCommonExtensions': True,
+        'showExtensions': True,
+    },
+    # Organización de tags
+    'TAGS': [
+        {'name': 'Clientes', 'description': 'Operaciones relacionadas con clientes'},
+        {'name': 'Referencias', 'description': 'Endpoints de datos de referencia'},
+        {'name': 'Exportación', 'description': 'Exportación de datos en múltiples formatos'},
+        {'name': 'Reportes', 'description': 'Generación de reportes de negocio'},
+    ],
+    # Esquemas para componentes comunes
+    'COMPONENT_SPLIT_REQUEST': True,
+    'COMPONENT_SPLIT_RESPONSE': False,
 }
 
 

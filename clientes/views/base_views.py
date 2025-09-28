@@ -311,6 +311,39 @@ class SwaggerSchemaMixin:
             },
             description=description
         )
+    
+    @staticmethod
+    def get_example_request(example_data: Dict) -> Dict:
+        """
+        Genera un ejemplo estandarizado de request para documentación.
+        """
+        return {
+            'examples': {
+                'request_example': {
+                    'summary': 'Ejemplo de solicitud',
+                    'value': example_data
+                }
+            }
+        }
+    
+    @staticmethod
+    def get_example_response(example_data: Dict) -> Dict:
+        """
+        Genera un ejemplo estandarizado de response para documentación.
+        """
+        return {
+            'examples': {
+                'response_example': {
+                    'summary': 'Ejemplo de respuesta exitosa',
+                    'value': {
+                        'success': True,
+                        'message': 'Operación completada exitosamente',
+                        'data': example_data,
+                        'timestamp': datetime.now().isoformat()
+                    }
+                }
+            }
+        }
 
 
 class LoggingMiddleware:

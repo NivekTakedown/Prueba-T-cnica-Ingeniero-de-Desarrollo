@@ -45,10 +45,47 @@ class BuscarClienteAPIView(BaseAPIView, ValidationMixin, SwaggerSchemaMixin):
         - Historial de compras recientes
         - Validaciones de formato de documento
         
-        **Casos de uso:**
-        - Consulta en servicio al cliente
-        - Verificación de información
-        - Análisis de comportamiento de compra
+        **Ejemplos de uso:**
+        ```json
+        {
+            "tipo_documento": "CC",
+            "numero_documento": "12345678",
+            "incluir_compras": true,
+            "limite_compras": 5
+        }
+        ```
+        
+        **Respuesta exitosa:**
+        ```json
+        {
+            "success": true,
+            "message": "Cliente encontrado exitosamente",
+            "data": {
+                "cliente": {
+                    "id": 4,
+                    "tipo_documento": {"codigo": "CC", "nombre": "Cédula de Ciudadanía"},
+                    "numero_documento": "12345678",
+                    "nombre": "Juan",
+                    "apellido": "Pérez",
+                    "correo": "juan.perez@ejemplo.com"
+                },
+                "estadisticas_compras": {
+                    "total_compras": 3,
+                    "monto_total_historico": 1250000.00,
+                    "monto_promedio": 416666.67
+                },
+                "compras": [
+                    {
+                        "id": 12,
+                        "fecha_compra": "2025-08-15T10:30:00Z",
+                        "monto_total": 450000.00,
+                        "estado": "COMPLETADA"
+                    }
+                ]
+            },
+            "timestamp": "2025-09-28T14:30:45Z"
+        }
+        ```
         """,
         request=BusquedaClienteRequestSerializer,
         responses={
@@ -168,9 +205,39 @@ class TiposDocumentoListAPIView(BaseAPIView, SwaggerSchemaMixin):
         Obtiene la lista completa de tipos de documento disponibles en el sistema.
         
         **Información retornada:**
-        - Código del tipo de documento
-        - Descripción completa
+        - Código del tipo de documento (ej: CC, NIT, PA)
+        - Nombre descriptivo completo
+        - Descripción detallada cuando aplica
         - Estado de disponibilidad
+        
+        **Ejemplos de respuesta:**
+        ```json
+        {
+            "success": true,
+            "message": "Tipos de documento obtenidos exitosamente",
+            "data": [
+                {
+                    "id": 1,
+                    "codigo": "CC",
+                    "nombre": "Cédula de Ciudadanía",
+                    "descripcion": "Documento de identificación para ciudadanos colombianos",
+                    "activo": true
+                },
+                {
+                    "id": 2,
+                    "codigo": "NIT", 
+                    "nombre": "Número de Identificación Tributaria",
+                    "descripcion": "Documento para empresas y personas jurídicas",
+                    "activo": true
+                }
+            ],
+            "meta": {
+                "total_tipos": 2,
+                "solo_activos": true
+            },
+            "timestamp": "2025-09-28T14:31:22Z"
+        }
+        ```
         
         **Casos de uso:**
         - Poblar dropdowns en interfaces
@@ -244,15 +311,51 @@ class ClienteInfoCompletaAPIView(BaseAPIView, ValidationMixin, SwaggerSchemaMixi
         summary="Obtener información completa del cliente",
         description="""
         Obtiene información detallada de un cliente específico por su ID.
-        
+    
         **Parámetros de consulta:**
-        - incluir_compras: Si incluir historial de compras (default: true)
-        - limite_compras: Número máximo de compras a incluir (default: 10)
-        
-        **Información retornada:**
-        - Datos completos del cliente
-        - Estadísticas de compras
-        - Historial de compras (opcional)
+        - `incluir_compras`: Si incluir historial de compras (default: true)
+        - `limite_compras`: Número máximo de compras a incluir (default: 10)
+    
+        **URL de ejemplo:**
+        ```
+        GET /api/v1/cliente/4/?incluir_compras=true&limite_compras=5
+        ```
+    
+        **Respuesta exitosa:**
+        ```json
+        {
+            "success": true,
+            "message": "Información del cliente obtenida exitosamente",
+            "data": {
+                "cliente": {
+                    "id": 4,
+                    "tipo_documento": {"codigo": "CC", "nombre": "Cédula de Ciudadanía"},
+                    "numero_documento": "12345678",
+                    "nombre": "Juan",
+                    "apellido": "Pérez",
+                    "correo": "juan.perez@ejemplo.com",
+                    "telefono": "+57 3001234567",
+                    "direccion": "Calle 123 #45-67",
+                    "ciudad": "Bogotá",
+                    "es_vip": true
+                },
+                "estadisticas": {
+                    "total_compras": 15,
+                    "monto_total": 8500000.00,
+                    "compras_ultimo_mes": 3
+                },
+                "compras": [
+                    {
+                        "id": 102,
+                        "fecha": "2025-09-20T15:30:45Z",
+                        "monto": 1250000.00,
+                        "productos": ["Televisor LED 50\"", "Soundbar 2.1"]
+                    }
+                ]
+            },
+            "timestamp": "2025-09-28T14:32:10Z"
+        }
+        ```
         """,
         parameters=[
             OpenApiParameter(
