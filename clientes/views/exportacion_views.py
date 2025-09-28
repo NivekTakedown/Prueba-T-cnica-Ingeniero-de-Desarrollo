@@ -38,9 +38,9 @@ class ExportarClienteAPIView(BaseAPIView, ValidationMixin, FileResponseMixin, Sw
         Exporta información completa de un cliente en el formato especificado.
         
         **Formatos disponibles:**
-        - CSV: Archivo de valores separados por comas
-        - Excel: Archivo Microsoft Excel (xlsx)
-        - TXT: Archivo de texto plano con formato legible
+        - **CSV**: Archivo de valores separados por comas
+        - **Excel**: Archivo Microsoft Excel (xlsx) con múltiples hojas
+        - **TXT**: Archivo de texto plano con formato legible
         
         **Información incluida:**
         - Datos básicos del cliente
@@ -48,7 +48,20 @@ class ExportarClienteAPIView(BaseAPIView, ValidationMixin, FileResponseMixin, Sw
         - Historial de compras (opcional)
         - Detalle de productos por compra (opcional)
         
+        **Ejemplo de solicitud:**
+        ```json
+        {
+            "tipo_documento": "CC",
+            "numero_documento": "12345678",
+            "formato": "excel",
+            "incluir_compras": true,
+            "incluir_productos": true,
+            "nombre_archivo": "reporte_cliente_premium"
+        }
+        ```
+        
         El archivo se genera para descarga directa con nombre personalizable.
+        El Content-Type de la respuesta varía según el formato solicitado.
         """,
         request=ExportacionRequestSerializer,
         responses={
@@ -128,7 +141,50 @@ class ExportarClienteAPIView(BaseAPIView, ValidationMixin, FileResponseMixin, Sw
     
     @extend_schema(
         summary="Obtener formatos de exportación disponibles",
-        description="Lista todos los formatos de exportación disponibles con sus descripciones",
+        description="""
+        Lista todos los formatos de exportación disponibles con sus descripciones y capacidades.
+        
+        **Ejemplo de respuesta:**
+        ```json
+        {
+            "success": true,
+            "message": "Formatos de exportación obtenidos exitosamente",
+            "data": [
+                {
+                    "codigo": "csv",
+                    "nombre": "CSV (Comma Separated Values)",
+                    "extension": ".csv",
+                    "descripcion": "Archivo de texto con valores separados por comas",
+                    "content_type": "text/csv",
+                    "incluye_formato": false,
+                    "soporta_multihoja": false
+                },
+                {
+                    "codigo": "excel",
+                    "nombre": "Microsoft Excel",
+                    "extension": ".xlsx",
+                    "descripcion": "Archivo de hoja de cálculo Excel con múltiples hojas",
+                    "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    "incluye_formato": true,
+                    "soporta_multihoja": true
+                },
+                {
+                    "codigo": "txt",
+                    "nombre": "Texto plano",
+                    "extension": ".txt",
+                    "descripcion": "Archivo de texto plano con formato legible",
+                    "content_type": "text/plain",
+                    "incluye_formato": false,
+                    "soporta_multihoja": false
+                }
+            ],
+            "meta": {
+                "total_formatos": 3
+            },
+            "timestamp": "2025-09-28T14:35:40Z"
+        }
+        ```
+        """,
         responses={
             200: OpenApiResponse(
                 description="Lista de formatos disponibles obtenida exitosamente",

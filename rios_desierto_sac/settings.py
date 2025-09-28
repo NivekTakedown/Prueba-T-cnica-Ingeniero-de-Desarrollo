@@ -156,11 +156,50 @@ REST_FRAMEWORK = {
 
 # Swagger/OpenAPI configuration
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Sistema SAC Rios del Desierto API',
-    'DESCRIPTION': 'API para Sistema de Atención al Cliente de Rios del Desierto',
+    'TITLE': 'SAC Rios del Desierto API',
+    'DESCRIPTION': """
+    API para el Sistema de Atención al Cliente de Rios del Desierto.
+    
+    Este API permite gestionar clientes, consultar información, generar reportes 
+    y exportar datos en diferentes formatos.
+    """,
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
-    'SCHEMA_PATH_PREFIX': '/api/v1/',
+    'CONTACT': {
+        'name': 'Equipo de Desarrollo SAC',
+        'email': 'desarrollo@riosdeldesierto.com',
+    },
+    'LICENSE': {
+        'name': 'Privada - Todos los derechos reservados',
+    },
+    'EXTERNAL_DOCS': {
+        'description': 'Manual técnico completo',
+        'url': '/docs/manual_tecnico.pdf',
+    },
+    # Mejoras de interfaz
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,
+        'persistAuthorization': True,
+        'displayOperationId': True,
+        'defaultModelsExpandDepth': 3,
+        'defaultModelExpandDepth': 3,
+        'defaultModelRendering': 'model',
+        'displayRequestDuration': True,
+        'docExpansion': 'list',
+        'filter': True,
+        'showCommonExtensions': True,
+        'showExtensions': True,
+    },
+    # Organización de tags
+    'TAGS': [
+        {'name': 'Clientes', 'description': 'Operaciones relacionadas con clientes'},
+        {'name': 'Referencias', 'description': 'Endpoints de datos de referencia'},
+        {'name': 'Exportación', 'description': 'Exportación de datos en múltiples formatos'},
+        {'name': 'Reportes', 'description': 'Generación de reportes de negocio'},
+    ],
+    # Esquemas para componentes comunes
+    'COMPONENT_SPLIT_REQUEST': True,
+    'COMPONENT_SPLIT_RESPONSE': False,
 }
 
 
