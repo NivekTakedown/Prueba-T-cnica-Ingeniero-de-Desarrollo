@@ -8,6 +8,7 @@ from .views.cliente_views import (
     TiposDocumentoListAPIView,
     ClienteInfoCompletaAPIView
 )
+from .views.exportacion_views import ExportarClienteAPIView
 
 app_name = 'clientes'
 
@@ -16,6 +17,9 @@ v1_patterns = [
     # Cliente endpoints
     path('buscar-cliente/', BuscarClienteAPIView.as_view(), name='buscar-cliente'),
     path('cliente/<int:cliente_id>/', ClienteInfoCompletaAPIView.as_view(), name='info-completa-cliente'),
+    
+    # Exportación endpoints
+    path('exportar/', ExportarClienteAPIView.as_view(), name='exportar-cliente'),
     
     # Referencias
     path('tipos-documento/', TiposDocumentoListAPIView.as_view(), name='tipos-documento'),

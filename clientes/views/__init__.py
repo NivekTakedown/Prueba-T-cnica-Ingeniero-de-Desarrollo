@@ -14,6 +14,10 @@ from .cliente_views import (
     ClienteInfoCompletaAPIView
 )
 
+from .exportacion_views import (
+    ExportarClienteAPIView
+)
+
 __all__ = [
     # Base classes
     'BaseAPIView',
@@ -31,5 +35,8 @@ __all__ = [
     # Cliente Views
     'BuscarClienteAPIView',
     'TiposDocumentoListAPIView',
-    'ClienteInfoCompletaAPIView'
+    'ClienteInfoCompletaAPIView',
+    
+    # Exportación Views
+    'ExportarClienteAPIView'
 ]
