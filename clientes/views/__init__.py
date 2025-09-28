@@ -18,6 +18,10 @@ from .exportacion_views import (
     ExportarClienteAPIView
 )
 
+from .reporte_views import (
+    ReporteFidelizacionAPIView
+)
+
 __all__ = [
     # Base classes
     'BaseAPIView',
@@ -38,5 +42,8 @@ __all__ = [
     'ClienteInfoCompletaAPIView',
     
     # Exportación Views
-    'ExportarClienteAPIView'
+    'ExportarClienteAPIView',
+    
+    # Reporte Views
+    'ReporteFidelizacionAPIView'
 ]

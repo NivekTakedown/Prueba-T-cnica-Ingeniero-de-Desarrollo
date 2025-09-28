@@ -9,6 +9,7 @@ from .views.cliente_views import (
     ClienteInfoCompletaAPIView
 )
 from .views.exportacion_views import ExportarClienteAPIView
+from .views.reporte_views import ReporteFidelizacionAPIView
 
 app_name = 'clientes'
 
@@ -20,6 +21,9 @@ v1_patterns = [
     
     # Exportación endpoints
     path('exportar/', ExportarClienteAPIView.as_view(), name='exportar-cliente'),
+    
+    # Reporte endpoints
+    path('reportes/fidelizacion/', ReporteFidelizacionAPIView.as_view(), name='reporte-fidelizacion'),
     
     # Referencias
     path('tipos-documento/', TiposDocumentoListAPIView.as_view(), name='tipos-documento'),
